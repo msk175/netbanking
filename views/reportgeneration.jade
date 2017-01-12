@@ -1,0 +1,44 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                h2 Account statement
+                    form#user_registration_form(id='BDEFormID',name = 'user_reigstration_form',method='get')
+                        img(src='/images/pdf.ico', width='50', height='50' , onclick = 'download();',align='right')
+                        img(src='/images/excel.png', width='50', height='50' , onclick = 'download();',align='right') 
+
+                    h4 #{msg} 
+                        
+                        table(style="border: 1px solid black;")
+                            tr(style="border: 1px solid black;")
+                                td
+                                    label Account Number
+                                td
+                                    label Transaction Date
+                                td
+                                    label Narration
+                                td
+                                    label Credit
+                                td
+                                    label Debit
+                                td
+                                    label Running Balance
+                            tr(style="border: 1px solid black;")
+                            - for (var j = 0; j < results.length; ++j) {
+                            tr(style="border: 1px solid black;")
+                                td
+                                    label= results[j].acc_number
+                                td
+                                    label= results[j].tr_date
+                                td
+                                    label= results[j].narration
+                                td
+                                    label= results[j].credit
+                                td
+                                    label= results[j].debit
+                                td
+                                    label= results[j].running_balance
+                             - }

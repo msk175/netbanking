@@ -1,0 +1,82 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                h1 Profile Update.
+                form#user_registration_form(action='/update',enctype="multipart/form-data",data-ajax="false",id='UPDATEFormID',name = 'user_detailsupdate_form',method='post')
+                    br
+                    h3 #{msg}
+                    table(style='width:100%;')
+                        tr
+                            td(width="60%", colspan='2')
+                                span(style='font-weight:bold;') Profile Update Information
+                                hr
+                        tr
+                            input(type="hidden", value=userDetails[0].email,id="old_email", name="old_email")
+                            input(type="hidden", value=userDetails[0].phone,id="old_phone", name="old_phone")
+                            td(width="40%", align="right")
+                                label Account Number
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].acc_number,required='true',readonly="readonly",id='acc_number',name='acc_number')
+                                    - }
+
+                        tr
+                            td(width="40%", align="right")
+                                label User Name
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].user_name,required='true',readonly="readonly",id='user_name',name='user_name')
+                                    - }
+
+                        tr
+                            td(width="40%", align="right")
+                                label First Name
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].first_name,required='true',readonly="readonly",id='first_name',name='first_name')
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label Last Name
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].last_name,required='true',readonly="readonly",id='last_name',name='last_name')
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label Date of Birth
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].dob,required='true',readonly="readonly",id='date_of_birth',name='date_of_birth')
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label Customer ID
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].customer_id,required='true',readonly="readonly",id='customer_id',name='customer_id')
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label Email Address *
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type='email', name='email', required='required', value=results[j].email,id='email')
+                                    - }
+
+                        tr
+                            td(width="40%", align="right")
+                                label Phone *
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", maxlength="10",value=results[j].phone,required='true',id='phone',name='phone')
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                input(type="submit", id="save", value='Submit',onclick='return validateProfile('+JSON.stringify(results)+');').button_as_text
+                            td(width="60%", align="left")
+                                input(type="button", id="cancel", value='Cancel', onclick = 'window.location.href="/accountsummary"').button_as_text

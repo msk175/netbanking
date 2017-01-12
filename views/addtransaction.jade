@@ -1,0 +1,157 @@
+extends netbankingAdminlayout
+
+block content
+    header
+    h1 Add New Transaction.
+    form#user_registration_form(enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+        header(style='padding-left:8px;')
+        br
+        h4(width="30%", align="center") #{msg}
+        -if(userDetails.length>0){
+        h4
+                                          table(style='width:100%;')
+                                            tr
+                                                td(width="40%", align="right")
+                                                    label Account Number
+                                                td(width="60%", align="left")
+                                                   input(type="text", id="acc_number", name="acc_number",value=userDetails[0].acc_number)
+                                            tr
+                                                td
+                                            tr
+                                                td(width="40%", align="right")
+                                                 input(type="button", id="fetch", value='Fetch',onclick="callAddTransaction()").button_as_text
+    table.two-column
+                    tr
+                        td
+                            table(style='width:100%;',style="border: 1px solid black;",align="center")
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Account Number:
+                                    td(width="30%", align="left")
+                                        h3                                            
+                                          label= userDetails[0].acc_number
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Customer ID:
+                                    td(width="30%", align="left")
+                                        h3                                            
+                                          label= userDetails[0].customer_id
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Status:
+                                    td(width="30%", align="left")
+                                        
+                                        -if(userDetails[0].active_indicator==1){
+                                            h3
+                                              label= 'Active'
+                                        -}
+                                        -else{
+                                            h3
+                                              label= 'In Active'
+                                        -}   
+                                           
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Customer Name:
+                                    td(width="30%", align="left")
+                                        h3                                           
+                                          label= userDetails[0].first_name
+                                           
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Opening Balance:
+                                    td(width="30%", align="left")
+                                        h3
+                                            &#2352;
+                                            label= userDetails[0].opening_balance
+                                            
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Running Balance:
+                                    td(width="30%", align="left")
+                                        h3
+                                            &#2352;
+                                            label= userDetails[0].running_balance
+                                            
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Email Address:
+                                    td(width="30%", align="left")
+                                        h3                                          
+                                          label= userDetails[0].email
+                                           
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Date of Birth:
+                                    td(width="30%", align="left")
+                                        h3                                           
+                                          label= userDetails[0].dob
+                                            
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Phone Number:
+                                    td(width="30%", align="left")
+                                        h3                                           
+                                          label= userDetails[0].phone
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Address:
+                                    td(width="30%", align="left")
+                                        h3                                           
+                                          label= userDetails[0].address
+                table.two-column
+                    tr
+                        td
+                            table(style='width:100%;',style="border: 1px solid black;",align="right")
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Trans-  Amount:
+                                    td(width="30%", align="left")
+                                        h3                                            
+                                           input(type="number", id="amount", name="amount")
+                                           input(type="hidden", id="acc_number", name="acc_number",value=userDetails[0].acc_number)
+                                           input(type="hidden", id="src_acc_number", name="src_acc_number",value=2715118000001)
+                                tr
+                                    td(width="70%", align="right")
+                                        h3
+                                            label Narraion:
+                                    td(width="30%", align="left")
+                                        h3                                            
+                                           input(type="text", id="narration", name="narration")
+                                tr
+                                    td(width="40%", align="center")
+                                        input(type="button", id="credit", value='Credit',onclick="callAddTransactionCredit()").button_as_text
+                                       
+                                    td(width="30%", align="center")
+                                        input(type="button", id="debit", value='Debit',onclick="callAddTransactionDebit()").button_as_text
+
+                                           
+                                    - }
+                                    -else{
+                                        h4
+                                          table(style='width:100%;')
+                                            tr
+                                                td(width="40%", align="right")
+                                                    label Account Number
+                                                td(width="60%", align="left")
+                                                   input(type="text", id="acc_number", name="acc_number")
+                                            tr
+                                                td
+                                            tr
+                                                td(width="40%", align="right")
+                                                 input(type="button", id="fetch", value='Fetch',onclick="callAddTransaction()").button_as_text
+                                    -}
+
+
+

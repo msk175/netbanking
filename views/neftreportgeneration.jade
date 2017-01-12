@@ -1,0 +1,52 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                h2 NEFT Transfer Report
+                h4 #{msg}
+                    h4
+                        table(style="border: 1px solid black;")
+                            tr(style="border: 1px solid black;")
+                                td
+                                    label Transfer ID
+                                td
+                                    label Transfer Date
+                                td
+                                    label Acc Number
+                                td
+                                    label Beneficiary Name
+                                td
+                                    label Transfered Amount
+                                td
+                                    label Narration
+                                td
+                                    label Status
+                            tr(style="border: 1px solid black;")
+                            - for (var j = 0; j < results.length; ++j) {
+                            tr(style="border: 1px solid black;")
+                                td
+                                    label= results[j].transaction_id
+                                td
+                                    label= results[j].tr_date
+                                td
+                                    label= results[j].acc_number
+                                td
+                                    label= results[j].beneficiary_name
+                                td
+                                    label= results[j].transfer_amount
+                                td
+                                    label= results[j].transaction_notes
+                                td
+                                    -if(results[j].is_verified==0){
+                                        label Waiting for Approval.
+                                    -}
+                                    -else if(results[j].is_verified==1&&results[j].is_settled==1){
+                                        label Success.
+                                    -}
+                                    -else{
+                                        label Failure-No Such Account.
+                                    -}
+                             - }

@@ -1,0 +1,42 @@
+!!! 5
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/chunkfive-fontface.css')
+        script(type='text/javascript', src='/JavaScript/window.js')
+                title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/style1.css')
+        link(rel='stylesheet', href='/stylesheets/chunkfive-fontface.css')
+        script(type='text/javascript',src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+        script(type='text/javascript', src='/JavaScript/validate.js')
+        script(type='text/javascript', src='/JavaScript/loginValidate.js')
+        script(type='text/javascript', src='/JavaScript/NewUserValidate.js')
+        script(type='text/javascript', src='/JavaScript/window.js')
+        script(type='text/javascript', src='/JavaScript/resetValidation.js')
+    body
+        header
+            nav
+                ul
+                    img(src='/images/trustlogo.png', width='75', height='75' , align='left') 
+                    li
+                        a(href="/") Home
+                    li
+                        a(href="/netbanking") NetBanking
+                    li
+                        a(href="/contact") Contact
+        section#wrapper
+            block content
+
+            footer
+                section.css-table
+                    section.four-column
+                        section.cell
+                            p 2013@All Rights Reserved Trust Bank
+                        section.cell
+                            p Feedback/Complaint
+                        section.cell
+                            p Disclaimer
+                        section.cell
+                            p Terms& Conditions

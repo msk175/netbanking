@@ -1,0 +1,65 @@
+extends netbankinglayout
+
+block content
+    header
+        nav
+            ul
+
+    hr
+    table.css-table
+        tr
+            td(width="40%")
+                table.two-column
+                    img(src="/images/dynamic.jpg")
+            td(width="60%")
+                table.two-column
+                    h1 Dynamic Login Code Check
+                    tr
+                        td
+                            form#user_registration_form(action='/dynamicPasswordCheck',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+                                br
+                                h2 #{msg}
+                                table(style='width:100%;')
+                                    tr
+                                        td(colspan = '2')
+                                            span(style='font-weight:bold;') For security reason please provide Dynamic Login Code to continue
+                                            hr
+                                    tr
+                                        input(type="hidden", value=userDetails.user_name,id="user_name", name="user_name")
+                                        input(type="hidden", value=userDetails.acc_number,id="acc_number", name="acc_number")
+                                        input(type="hidden", value=userDetails.email,id="email", name="email")
+                                        input(type="hidden", value=userDetails.phone,id="phone", name="phone")
+
+                                    tr
+                                        td(width="40%", align="right")
+                                            label Dynamic Login Code
+                                        td(width="30%", align="left")
+                                            input(type="password", id="trans_password", name="trans_password")
+                                    tr
+                                        td(width="40%",align="right")
+                                            label Prefered Account
+                                        td(width="40%", align="left")
+                                            select(id='prefered_account',name='prefered_account')
+                                                -for (var j = 0; j < userDetails.length; ++j){
+                                                option(value=userDetails[j].acc_number,id='prefered_account_no',name='prefered_account_no') #{userDetails[j].acc_number}
+                                                -}
+                                    tr
+                                        td(width="40%", align="right")
+                                            label Redirect To
+                                        td(width="30%", align="left")
+                                            select(id="redirect_option", name="redirect_option")
+                                                option(value='/cca',id='ac') Account Summary
+                                                option(value='/accountstatement',id='as') Account Statement
+                                                option(value='/transactionreport',id='nr') NEFT/RGTS Reports
+                                                option(value='/nefttransaction',id='nt') NEFT/RGTS Transactions
+                                                option(value='/beneficiary',id='bm') Add Beneficiary
+                                                option(value='/changepassword',id='cp') Change Password
+                                                option(value='/profileupdate',id='pu') Profile Update
+                                                option(value='/feedbackORcomplaint',id='fc') Feedback/Complaint
+                                    tr
+                                        td(width="40%", align="right")
+
+                                        td(width="30%", align="left")
+                                            input(type="submit", id="save", value='Submit',onclick="return loginDynamicPassword();").button_as_text
+                                            input(type="button", id="cancel", value='Re Login', onclick = 'window.location.href="/logout"').button_as_text
+

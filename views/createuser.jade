@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    h1 User Registration.
+    img(src= "/images/createuser.jpg")
+    form#user_registration_form(action='/authenregister',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+        header(style='padding-left:8px;')
+            h3  User Details
+        br
+        table.user_table
+            tr
+                td(width="40%", align="right")
+                    h2 #{msg}
+            tr
+                td(colspan = '2')
+                    span(style='font-weight:bold;') Register Information:
+                    hr
+            tr
+                td(width="40%", align="right")
+                    label Account Number
+                td(width="30%", align="left")
+                    input(type="text", id="acc_number", name="acc_number")
+            tr
+                td(width="40%", align="right")
+                    label Date of Birth
+                td(width="30%", align="left")
+                    input(type="date", id="dob", name="dob")
+                tr
+                    td(width="40%", align="right")
+                        label Customer ID
+                    td(width="30%", align="left")
+                        input(type="text", id="customer_id", name="customer_id")
+
+                tr
+                    td(width="40%", align="center")
+                        //input(type="submit", id="save", value='Submit', onclick="return Newcreateuservalidate();").button_as_text
+                    td(width="30%", align="left")
+                        input(type="submit", id="save", value='Submit', onclick="return Newcreateuservalidate();").button_as_text
+                        input(type="button", id="Cancel", value='Cancel', onclick = 'myWindowClose();').button_as_text
+

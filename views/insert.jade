@@ -1,0 +1,11 @@
+extends netbankinglayout
+
+block content
+    h1 New user created successfully.
+    img(src= "/images/createusersu.jpg")
+    table.user_table
+        tr
+            td
+            td(width="30%", align="left")
+                input(type="button", id="Add Another", value='Add Another User', onclick = 'window.location.href="/NewCreateUser"').button_as_text
+                input(type="button", id="home", value='Home', onclick = 'window.location.href="/NewCreateUser"').button_as_text

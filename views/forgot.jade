@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    h1 User RecoverInfo.
+        marquee(behavior='alternate', direction='left')
+            img(src='/images/searching.jpg', width='200', height='200', alt='smile')
+    form#user_forgotinfo_form(action='/forgotinfo',name = 'user_forgotinfo_form',method='post')
+        header(style='padding-left:8px;')
+            h3  User Details
+
+        table.user_table
+            tr
+                td(align="right")
+                  h2 #{msg}
+            tr
+                td(width="40%", align="right")
+                    label Account Number
+                td(width="30%", align="left")
+                    input(type="text", id="acc_number", name="acc_number")
+                tr
+                    td(width="40%", align="right")
+                        label Date of Birth
+                    td(width="30%", align="left")
+                        input(type="date", id="dob", name="dob")
+                tr
+                    td(width="40%", align="right")
+                        label Phone Number
+                    td(width="30%", align="left")
+                        input(type="text", id="phone", name="phone",maxlength="10")
+                    tr
+                        td
+
+                        td
+                            input(type="submit", id="save", value='Submit',onclick = "return registerValidate();").button_as_text
+                            input(type="button", id="cancel", value='Cancel', onclick = 'myWindowClose();').button_as_text

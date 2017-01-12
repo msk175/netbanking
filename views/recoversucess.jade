@@ -1,0 +1,37 @@
+extends netbankinglayout
+
+block content
+    h1 User RecoveryInfo Success.
+        marquee(behavior='alternate', direction='left')
+            img(src='/images/searching.jpg', width='200', height='200', alt='smile')
+    form#user_forgotinfo_form(action='/forgotinfo',name = 'user_forgotinfo_form',method='post')
+        header(style='padding-left:8px;')
+            h3  User Details
+        br
+        table.user_table
+            tr
+                td
+            tr
+                td(width="40%", align="right")
+                    h3
+                        label User ID:
+                td(width="30%", align="left")
+                    h3
+                        - for (var j = 0; j < results.length; ++j) {
+                            label= results[j].user_name
+                        - }
+                tr
+                    td(width="40%", align="right")
+                        h3
+                            label Password:
+                    td(width="30%", align="left")
+                        h3
+                            - for (var i = 0; i < results.length; ++i) {
+                                label= results[i].password
+                            - }
+                tr
+                    td
+
+                    td
+                        input(type="button", id="back", value='Back',onclick = 'window.location.href="/forgot"').button_as_text
+                        input(type="button", id="cancel", value='Cancel', onclick = 'window.location.href="/"').button_as_text

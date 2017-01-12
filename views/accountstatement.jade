@@ -1,0 +1,42 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                h1 Account Statement.
+
+    form#user_registration_form(action='/statement',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+        header
+        br
+        table(style='width:100%;')
+            tr
+                td(width="40%", align="right")
+                    h2 #{msg}
+
+            tr
+                td(colspan = '2')
+                    span(style='font-weight:bold;') Statement Information
+                    hr
+            tr
+                td(width="40%", align="left")
+                    label Account No:
+                    select(name='acc_number',id='acc_number')
+                        - for (var j = 0; j < userDetails.length; ++j){
+                            option(value=userDetails[j].acc_number,id='acc_number') #{userDetails[j].acc_number}
+                            - }
+
+            tr
+                td
+                    label From Date :
+                    input(type="date", id="from_date", name="from_date")
+                td
+                    label To Date:
+                    input(type="date", id="to_date", name="to_date")
+            tr
+                    td(width="40%", align="right")
+                        input(type="submit", id="save", value='Generate').button_as_text
+                    td(width="60%", align="left")
+                        //input(type="button", id="cancel", value='Reset', onclick = 'window.location.href="/accountstatement"').button_as_text
+

@@ -1,0 +1,64 @@
+extends netbankingAdminlayout
+
+block content
+    header
+    h1 Transaction Verification.
+    form#user_registration_form(enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+        header(style='padding-left:8px;')
+        br
+        h4(width="30%", align="center") #{msg}
+        -if(toVerify.length>0){
+        table.two-column
+                    tr
+                        td
+                            h2 Transaction Verification List
+                                h4  
+                                    table(style="border: 1px solid black;")
+                                        tr(style="border: 1px solid black;")
+                                            td
+                                                label Date
+                                            td
+                                                label Source Acc No
+                                            td
+                                                label Customer ID
+                                            td
+                                                label To Acc No
+                                            td
+                                                label IFSC 
+                                            td
+                                                label Beneficiary Name
+                                            td
+                                                label Amount
+                                            td
+                                                label Narration
+                                            td
+                                                label Action
+                                        tr(style="border: 1px solid black;")
+                                        - for (var j = 0; j < toVerify.length; ++j) {
+                                        tr(style="border: 1px solid black;")
+                                            td
+                                                label= toVerify[j].tr_date
+                                            td
+                                                label= toVerify[j].source_acc_number
+                                            td
+                                                label= toVerify[j].customer_id
+                                            td
+                                                label= toVerify[j].acc_number
+                                            td
+                                                label= toVerify[j].ifsc_code
+                                            td
+                                                label= toVerify[j].beneficiary_name
+                                            td
+                                                label= toVerify[j].transfer_amount
+                                            td
+                                                label= toVerify[j].transaction_notes
+                                            td                    
+                                                 input(type="button", id="fetch", value='Fetch', onclick = 'window.location.assign("'+toVerify[j].url+'")').button_as_text
+                                         - }
+                                    - }
+                                    -else{
+                                        h4(width="30%", align="center") No Transactions to veify !
+                                    -}
+
+
+

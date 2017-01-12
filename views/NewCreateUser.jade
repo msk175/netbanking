@@ -1,0 +1,89 @@
+extends netbankingAdminlayout
+
+block content
+    header
+    h1 Add NewUser.
+    form#user_registration_form(action='/insert',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+        header(style='padding-left:8px;')
+        br
+        table.user_table
+            tr
+                td(width="40%", align="right")
+                  h2 #{msg}
+            tr
+                td(colspan = '2')
+                    span(style='font-weight:bold;') Login Information
+                    hr
+            tr
+                td(width="40%", align="right")
+                    label Account Number
+                td(width="30%", align="left")
+                  - var acc = parseInt(results[0].acc_number)+1;
+                  input(type="text", value='#{acc}',required='true',readonly="readonly",id="acc_number",name="acc_number")
+            tr
+                td(width="40%", align="right")
+                    label Customer ID
+                td(width="30%", align="left")
+                    - var customerid = parseInt(results[0].customer_id)+1;
+                    input(type="text", value='000000'+'#{customerid}',required='true',readonly="readonly",id="customer_id",name="customer_id")
+            tr
+                  td(width="40%", align="right")
+                       label Opening Balance
+                  td(width="30%", align="left")
+                    input(type="number", id="opening_balance", name="opening_balance")
+            tr
+                td(width="40%", align="right")
+                    label User Name
+                td(width="30%", align="left")
+                    input(type="text",id="user_name", name="user_name")
+                tr
+                    td(width="40%", align="right")
+                        label Password
+                    td(width="30%", align="left")
+                        input(type="password",id="password", name="password")
+                tr
+                    td(width="40%", align="right")
+                        label Confirm Password
+                    td(width="30%", align="left")
+                        input(type="password",id="confirm_password", name="confirm_password")
+                tr
+                    td(colspan = '2')
+                        span(style='font-weight:bold;') Personal Information
+                        hr
+                tr
+                    td(width="40%", align="right")
+                        label First Name
+                    td(width="30%", align="left")
+                        input(type="text", id="first_name", name="first_name")
+                tr
+                    td(width="40%", align="right")
+                        label Lase Name
+                    td(width="30%", align="left")
+                        input(type="text", id="last_name", name="last_name")
+                tr
+                    td(width="40%", align="right")
+                        label Email Address
+                    td(width="30%", align="left")
+                        input(type="email", id="email", name="email")
+                tr
+                    td(width="40%", align="right")
+                        label Date of Birth
+                    td(width="30%", align="left")
+                        input(type="date", id="dob", name="dob")
+
+                tr
+                    td(width="40%", align="right")
+                        label Phone
+                    td(width="30%", align="left")
+                        input(type="text", id="phone", name="phone",maxlength="10")
+                 tr
+                    td(width="40%", align="right")
+                        label Address
+                    td(width="30%", align="left")
+                        textarea(required='true',id='address',name='address')
+                tr
+                    td(width="40%", align="center")
+
+                    td(width="30%", align="left")
+                        input(type="submit", id="save", value='Submit',onclick = "return NewUserValidate();").button_as_text
+

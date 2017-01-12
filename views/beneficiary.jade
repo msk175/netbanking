@@ -1,0 +1,100 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                h1 Beneficiary Maintenance.
+                form#user_registration_form(action='/beneficiary',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+                    br
+                    h2 #{msg}
+                    table(style='width:100%;')
+                        tr
+                            td(width="40%", align="center")
+
+                        tr
+                            td(width="100%", colspan='2')
+                                span(style='font-weight:bold;') Add Beneficiary Details
+                                hr
+                        tr
+                            td(width="40%", align="right")
+                                label Source Acc Number
+                            td(width="60%", align="left")
+                                select(id='source_acc_number',name='source_acc_number')
+                                    -for (var j = 0; j < userDetails.length; ++j){
+                                        option(value=userDetails[j].acc_number,id='source_acc_number') #{userDetails[j].acc_number}
+                                    -}
+                        tr
+                            td(width="40%", align="right")
+                                label Account Number
+                            td(width="60%", align="left")
+                                input(type="text", id="acc_number", name="acc_number", maxlength="16")
+                        tr
+                            td(width="40%", align="right")
+                                label Confirm Acc Number
+                            td(width="60%", align="left")
+                                input(type="text", id="confirm_acc_number",name="confirm_acc_number",maxlength="16")
+                        tr
+                            td(width="40%", align="right")
+                                label IFSC Code
+                            td(width="60%", align="left")
+                                input(type="text", id="ifsc_code", name="ifsc_code")
+                        tr
+                            td(width="40%", align="right")
+                                label Beneficiary Name
+                            td(width="60%", align="left")
+                                input(type="text", id="beneficiary_name", name="beneficiary_name")
+                        tr
+                            td(width="40%", align="right")
+                                input(type="submit", id="save", value='Submit',onclick = "return validateBeneficiary();").button_as_text
+                            td(width="60%", align="left")
+                                input(type="button", id="cancel", value='Reset', onclick = 'resetBeneficiary();').button_as_text
+        tr
+            td
+                tr
+                            td(width="40%", align="center")
+
+                        tr
+                            td(width="100%", colspan='2')
+                                span(style='font-weight:bold;') View/Delete Beneficiary Details
+                                hr   
+                        table(style="border: 1px solid black;")
+                            tr(style="border: 1px solid black;")
+                                td
+                                    h6
+                                        label Beneficiary Name
+                                td
+                                    h6
+                                        label Acc Number
+                                td
+                                    h6
+                                        label IFSC Code
+                                td
+                                    h6
+                                        label Status
+                                td
+                                td
+                                    h6
+                                        label Action
+                            tr(style="border: 1px solid black;")
+                            - for (var j = 0; j < results.length; ++j) {
+                            tr(style="border: 1px solid black;")
+                                td
+                                    h6
+                                        label= results[j].beneficiary_name
+                                td
+                                    h6
+                                        label= results[j].acc_number
+                                td
+                                    h6
+                                        label= results[j].ifsc_code
+                                td
+                                    h6
+                                        label Active
+                                td
+
+                                td
+                                    input(type="button", id="delete", value='Delete', onclick = 'deleteBeneficiary('+JSON.stringify(results[j])+');').button_as_text
+                             - }   
+

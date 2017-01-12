@@ -1,0 +1,70 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+         //   td(width="40%")
+                table.two-column
+                    tr
+                        td
+                            section.cell
+                                h2 Account Details
+                                header
+                                    nav
+                                        ul
+                                            li
+                                                a(href="/accountstatement") Account Statement
+                                            li
+                                                a(href="/cca") CCA Account Details
+                                            li
+                                                a(href="/transactionreport") NEFT/RGTS Report
+                    tr
+                        td
+                            section.cell
+                                h2 Fund Transfer
+                                header
+                                    nav
+                                        ul
+                                            li
+                                                a(href="/nefttransaction") NEFT Transactions
+                                            li
+                                                a(href="/nefttransaction") RTGS Transactions
+                                            li
+                                                a(href="/beneficiary") Beneficiary Maintenance
+                    tr
+                        td
+                            section.cell
+                                h2 Personal Info
+                                header
+                                    nav
+                                        ul
+                                            li
+                                                a(href="/changepassword") Change Password
+                                            li
+                                                a(href="/profileupdate") Profile Update
+                                            li
+                                                a(href="/feedbackORcomplaint") Feedback  / Complaints
+
+            td(width="60%")
+                table.two-column
+                    tr
+                        td
+                            h1 CCA Accounts.
+                            form#user_registration_form(action='/accountnumberselection',enctype="multipart/form-data",data-ajax="false",id='CCAFormID',name = 'user_accountnumber_form',method='post')
+                                header
+                                br
+                                h2 #{msg}
+                                table(style='width:100%;')
+                                    tr
+                                        tr
+                                        td(width="40%", align="right")
+                                            label Source Account Number
+                                        td(width="60%", align="left")
+                                            select(id='source_acc_number',name='source_acc_number')
+                                                -for (var j = 0; j < userDetails.length; ++j){
+                                                    option(value=userDetails[j].acc_number,id='source_acc_number',name='source_acc_number') #{userDetails[j].acc_number}
+                                                -}
+                                        td(width="60%", align="left")
+                                            input(type="submit", id="save", value='Go').button_as_text
+

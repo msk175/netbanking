@@ -1,0 +1,90 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                table(style='width:100%;',style="border: 1px solid black;")
+                    tr
+                        td(width="70%", align="right")
+                            h3
+                                label Account Number:
+                        td(width="30%", align="left")
+                            h3
+                                - for (var j = 0; j < userDetails.length; ++j) {
+                                    label= userDetails[j].acc_number
+                                - }
+                    tr
+                        td(width="70%", align="right")
+                            h3
+                                label Account Holder Name:
+                        td(width="30%", align="left")
+                            h3
+                                - for (var j = 0; j < userDetails.length; ++j) {
+                                    label= userDetails[j].first_name
+                                - }
+                    tr
+                        td(width="70%", align="right")
+                            h3
+                                label Opening Balance:
+                        td(width="30%", align="left")
+                            h3
+                                &#2352;
+                                - for (var j = 0; j < userDetails.length; ++j) {
+                                    label= userDetails[j].opening_balance
+                                - }
+                    tr
+                        td(width="70%", align="right")
+                            h3
+                                label Running Balance:
+                        td(width="30%", align="left")
+                            h3
+                                &#2352;
+                                - for (var j = 0; j < userDetails.length; ++j) {
+                                    label= userDetails[j].running_balance
+                                - }
+                    tr
+                        td(width="70%", align="right")
+                            h3
+                                label Email Address:
+                        td(width="30%", align="left")
+                            h3
+                                - for (var j = 0; j < userDetails.length; ++j) {
+                                    label= userDetails[j].email
+                                - }
+                    tr
+                        td(width="70%", align="right")
+                            h3
+                                label Date of Birth:
+                        td(width="30%", align="left")
+                            h3
+                                - for (var j = 0; j < userDetails.length; ++j) {
+                                    label= userDetails[j].dob
+                                - }
+                    tr
+                        td(width="70%", align="right")
+                            h3
+                                label Phone Number:
+                        td(width="30%", align="left")
+                            h3
+                                - for (var j = 0; j < userDetails.length; ++j) {
+                                    label= userDetails[j].phone
+                                - }
+            td
+                img(src= "/images/"+userDetails[0].acc_number+".jpg",width="150",height="150")
+                form#user_registration_form(enctype="multipart/form-data",data-ajax="false",id='NEFTFormID',name = 'user_nefttransfer_form')
+                    div(data-role="fieldcontain", data-mini="true",id="singleDocDivId")
+                        input(type="file", name="singleUploadDocument" , id="singleUploadDocumentId")
+                        //input(type='hidden', name='txtCustomerID', value='1073234')
+                        //input(type='hidden', name='txtTxnAmount', value='2400.30')
+                        //input(type='hidden', name=' txtAdditionalInfo1', value='Identity of Merchant website with Billdesk ')
+                        //input(type='hidden', name=' txtAdditionalInfo2', value='USD')
+                        //input(type='hidden', name=' txtAdditionalInfo3', value='Kerala Backwaters')
+                        //input(type='hidden', name=' txtAdditionalInfo4', value='25-Sep-08')
+                        //input(type='hidden', name=' txtAdditionalInfo5', value='28-Sep-08')
+                        //input(type='hidden', name=' txtAdditionalInfo6', value='2')
+                        //input(type='hidden', name=' txtAdditionalInfo7', value='1')
+                        //input(type='hidden', name='RU', value='localhost:3000')
+                        a(href='JavaScript:upload()',data-icon='check',data-role='button',data-inline='true', data-mini='true',data-theme="b") Upload
+

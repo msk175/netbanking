@@ -1,0 +1,77 @@
+extends netbankingAdminlayout
+
+block content
+    header
+    h1 Transaction Verification.
+    form#user_registration_form(action='/insert',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+        header(style='padding-left:8px;')
+        br
+        h4
+                        table.user_table
+                            tr
+                                td(colspan = '2')
+                                    span(style='font-weight:bold;') Transaction Details
+                                    hr
+                            tr
+                                td(width="40%", align="right")
+                                    label Transaction ID    :
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        label #{results[j].transaction_id}
+                                        - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Transaction Date    :
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        label #{results[j].tr_date}
+                                        - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Account Number  :
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        label #{results[j].acc_number}
+                                        - }
+                                td
+                                    -if(accresult.length>0){
+                                        label - Account is Active
+                                    -}
+                                    -else{
+                                        label - Invalid Account No!
+                                    -}
+                            tr
+                                td(width="40%", align="right")
+                                    label IFSC Code  :
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        label #{results[j].ifsc_code}
+                                        - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Beneficiary Name  :
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        label #{results[j].beneficiary_name}
+                                        - }
+                                tr
+                                    td(width="40%", align="right")
+                                        label Transfer Amount  :
+                                    td(width="30%", align="left")
+                                        - for (var j = 0; j < results.length; ++j) {
+                                            label #{results[j].transfer_amount}
+                                            - }
+                                tr
+                                    td(width="40%", align="right")
+                                        label Transaction Notes  :
+                                    td(width="30%", align="left")
+                                        - for (var j = 0; j < results.length; ++j) {
+                                            label #{results[j].transaction_notes}
+                                            - }
+                                tr
+                                    td(width="40%", align="center")
+                                        -if(accresult.length>0){
+                                            input(type="button", id="approve", value='Approve', onclick = 'window.location.assign("'+results[0].approve_url+'")')).button_as_text
+                                        -}
+                                    td(width="30%", align="center")
+                                        input(type="button", id="reject", value='Reject', onclick = 'window.location.assign("'+results[0].reject_url+'")')).button_as_text

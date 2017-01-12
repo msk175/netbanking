@@ -1,0 +1,24 @@
+{
+  "name": "express_example",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "2.7.4"
+  },
+  "dependencies": {
+    "express": "3.1.0",
+    "jade": "0.28.1",
+    "request": "^2.79.0",
+    "stylus": "0.32.1"
+  },
+  "devDependencies": {
+    "mocha": "1.15.1"
+  },
+  "permissions": {
+    "private-browsing": "true"
+  }
+}

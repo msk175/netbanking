@@ -1,0 +1,36 @@
+extends layout
+
+block content
+    h1 Retail Login.
+    img(src= "/images/netbanking.jpg")
+    form#user_login_form(action='/authen',name = 'user_login_form',method='post',id = 'user_login_form')
+        header(style='padding-left:8px;')
+            h3  User Login Details
+        br
+        table.user_table(border="1")
+            tr
+                td(width="40%", align="right")
+                td(width="40%", align="left")
+                    h2 #{msg}
+            tr
+                td(width="40%", align="right")
+                    label User Name
+                td(width="30%", align="left")
+                    input(type="text", id="user_name", name="user_name")
+                tr
+                    td(width="40%", align="right")
+                        label Password
+                    td(width="30%", align="left")
+                        input(type="password", id="password", name="password")
+                tr
+                    td
+
+                    td
+                        input(type="submit", id="save", value='Submit',onclick = "return loginValidate();").button_as_text
+                        input(type="button", id="Reset", value='Reset', onclick = 'window.location.href="/retail"').button_as_text
+                        input(type="button", id="Register", value='Register', onclick = 'myWindowRegister();').button_as_text
+                tr
+                    td
+
+                    td
+                        input(type="button", id="forgot Password", value='Forgot Password / UserId?', onclick = 'myWindowForgot();').button_as_text

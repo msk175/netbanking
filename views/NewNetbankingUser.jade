@@ -1,0 +1,78 @@
+extends netbankinglayout
+
+block content
+    body(onload="enable_text(false);")
+    h1 User Registration.
+    img(src= "/images/createuser.jpg")
+    form#user_registration_form(action='/confirmregister',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+        header(style='padding-left:8px;')
+            h3  User Details
+        br
+        table.user_table
+
+            tr
+                td(width="40%", align="right")
+                    h2 #{msg}
+            tr
+                td(width="40%", align="right")
+                    label Acc Number:
+                td(width="30%", align="left")
+                    input(type="text", id="acc_number",value=registerDetails[0].acc_number,name="acc_number",required=true,readonly="true")
+            tr
+                td(width="40%", align="right")
+                    label Customer ID:
+                td(width="30%", align="left")
+                    input(type="text", id="customer_id",value=registerDetails[0].customer_id,name="customer_id",required=true,readonly="true")
+            tr
+                td(colspan = '2')
+                    span(style='font-weight:bold;') Register Information:
+                    hr
+            tr
+                td(width="40%", align="right")
+                    label User Name:
+                td(width="30%", align="left")
+                    input(type="text", id="user_name",name="user_name")
+            tr
+                td(width="40%", align="right")
+                    label Password:
+                td(width="30%", align="left")
+                    input(type="password", id="password",name="password")
+            tr
+                td(width="40%", align="right")
+                    label Confirm Password:
+                td(width="30%", align="left")
+                    input(type="password", id="confirm_password",name="confirm_password")
+            tr
+                td(width="40%", align="right")
+                    label if Transaction Password Required
+                td(width="30%", align="left")
+                    input(type="checkbox", id="trans_box",name="trans_box",onclick="enable_text(this.checked)")
+            tr
+                td(width="40%", align="right")
+                    label Password:
+                td(width="30%", align="left")
+                    input(type="password", id="trans_password",name="trans_password")
+            tr
+                td(width="40%", align="right")
+                    label Confirm Password:
+                td(width="30%", align="left")
+                    input(type="password", id="trans_confirm_password",name="trans_confirm_password")
+            tr
+                td(width="40%", align="right")
+                    //input(type="submit", id="save", value='Submit', onclick="return Newregisteruservalidate();").button_as_text
+                td(width="10%", align="left")
+                    input(type="submit", id="save", value='Submit', onclick="return Newregisteruservalidate();").button_as_text
+                    input(type="button", id="Cancel", value='Cancel', onclick = 'window.location.href="/createuser"').button_as_text
+            tr(width="40%", align="center")
+                td(width="40%", align="left")
+                    Label at least one number
+                    br
+                    Label one uppercase letter
+                    br
+                    Label one lowercase
+                    br
+                    Label at least six characters
+                    br
+                    Label that are letters, numbers or the underscore
+                td(width="60%", align="left")
+

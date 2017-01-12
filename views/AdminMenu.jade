@@ -1,0 +1,32 @@
+extends netbankingAdminlayout
+
+block content
+    header
+    h1
+    table.user_table
+        tr
+            td(width="40%", align="right")
+                a(href="/NewCreateUser")
+                    img(src= "/images/createuser.jpg",width='200', height='200')
+                h2
+                  label Add New Customers
+            td(width="40%", align="center")
+                a(href="/addtransaction")
+                    img(src= "/images/addtransaction.jpg",width='200', height='200')
+                h2
+                    label Add Transactions
+            td(width="40%", align="left")
+                a(href="/transactionverify")
+                    img(src= "/images/transactionverify.jpg",width='200', height='200')
+                h2
+                    label Transaction Verification
+        tr
+            td
+
+            td(width="40%", align="center")
+                a(href="/reportsmanagement")
+                    img(src= "/images/reports.jpg",width='200', height='200')
+                h2
+                    label Reports Management
+            td
+

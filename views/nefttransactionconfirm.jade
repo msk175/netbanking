@@ -1,0 +1,75 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+               h1 NEFT / RTGS Transaction.
+
+    form#user_registration_form(action='/transfer',enctype="multipart/form-data",data-ajax="false",id='NEFTFormID',name = 'user_nefttransfer_form',method='post')
+        br
+        h4
+            table.user_table
+                tr
+                    td(colspan = '2')
+                        span(style='font-weight:bold;') Transfer Success !
+                        hr
+                tr
+                    td(width="40%", align="right")
+                        label Transaction ID    :
+                    td(width="30%", align="left")
+                        - for (var j = 0; j < results.length; ++j) {
+                            label #{results[j].transaction_id}
+                            - }
+                tr
+                    td(width="40%", align="right")
+                        label Transaction Date    :
+                    td(width="30%", align="left")
+                        - for (var j = 0; j < results.length; ++j) {
+                            label #{results[j].tr_date}
+                            - }
+                tr
+                    td(width="40%", align="right")
+                        label Account Number  :
+                    td(width="30%", align="left")
+                        - for (var j = 0; j < results.length; ++j) {
+                            label #{results[j].acc_number}
+                            - }
+                tr
+                    td(width="40%", align="right")
+                        label IFSC Code  :
+                    td(width="30%", align="left")
+                        - for (var j = 0; j < results.length; ++j) {
+                            label #{results[j].ifsc_code}
+                            - }
+                tr
+                    td(width="40%", align="right")
+                        label Beneficiary Name  :
+                    td(width="30%", align="left")
+                        - for (var j = 0; j < results.length; ++j) {
+                            label #{results[j].beneficiary_name}
+                            - }
+                    tr
+                        td(width="40%", align="right")
+                            label Transfer Amount  :
+                        td(width="30%", align="left")
+                            - for (var j = 0; j < results.length; ++j) {
+                                label #{results[j].transfer_amount}
+                                - }
+                    tr
+                        td(width="40%", align="right")
+                            label Transaction Notes  :
+                        td(width="30%", align="left")
+                            - for (var j = 0; j < results.length; ++j) {
+                                label #{results[j].transaction_notes}
+                                - }
+                    tr
+                        td
+                          results
+                    tr
+                        td(width="40%", align="center")
+                            input(type="button", id="another", value='Another', onclick = 'window.location.href="/nefttransaction"').button_as_text
+                        td(width="30%", align="center")
+                            input(type="button", id="account_summary", value='Account Summary', onclick = 'window.location.href="/accountsummary"').button_as_text
+

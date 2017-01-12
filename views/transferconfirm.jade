@@ -1,0 +1,114 @@
+extends netbankinglayout
+
+block content
+    header
+    section.css-table
+        section.two-column
+            section.cell
+                h2 Account Details
+                header
+                    nav
+                        ul
+                            li
+                                a(href="/accountstatement") Account Statement
+                            li
+                                a(href="/cca") CCA Account Details
+                            li
+                                a(href="/transactionreport") NEFT/RGTS Report
+        section.two-column
+            section.cell
+                h2 Fund Transfer
+                header
+                    nav
+                        ul
+                            li
+                                a(href="/nefttransaction") NEFT Transactions
+                            li
+                                a(href="/nefttransaction") RTGS Transactions
+                            li
+                                a(href="/beneficiary") Bene./ Maintain
+        section.two-column
+            section.cell
+                h2 Personal Info
+                header
+                    nav
+                        ul
+                            li
+                                a(href="/changepassword") Change Password
+                            li
+                                a(href="/profileupdate") Profile Update
+                            li
+                                a(href="/feedbackORcomplaint") Feed bank/Complaint
+            section.cell
+                h1 NEFT / RTGS Transaction.
+
+                form#user_registration_form(action='/transferconfirm',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+                    header(style='padding-left:8px;')
+                    br
+                    table.user_table
+                        tr
+                            td(colspan = '2')
+                                span(style='font-weight:bold;') Transafer Information
+                                hr
+                        tr
+                            td(width="40%", align="right")
+                                label Account Number
+                            td(width="30%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].acc_number,required='true',readonly="readonly")
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label IFSC Code
+                            td(width="30%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].ifsc_code,required='true',readonly="readonly")
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label Beneficiary Name
+                            td(width="30%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].beneficiary_name,required='true',readonly="readonly")
+                                    - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Transfer Amount
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        input(type="text", value=results[j].transfer_amount,required='true',readonly="readonly")
+                                        - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Transaction Notes
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        input(type="text", value=results[j].transaction_notes,required='true',readonly="readonly")
+                                        - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Email Address
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        input(type="text", value=results[j].email,required='true',readonly="readonly")
+                                        - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Date of Birth
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        input(type="text", value=results[j].dob,required='true',readonly="readonly")
+                                        - }
+                            tr
+                                td(width="40%", align="right")
+                                    label Phone
+                                td(width="30%", align="left")
+                                    - for (var j = 0; j < results.length; ++j) {
+                                        input(type="text", value=results[j].phone,required='true',readonly="readonly")
+                                        - }
+                            tr
+                                td(width="40%", align="center")
+                                    input(type="submit", id="save", value='Submit').button_as_text
+                                td(width="30%", align="center")
+                                    input(type="button", id="cancel", value='Reset', onclick = 'window.location.href="/nefttransaction"').button_as_text
+

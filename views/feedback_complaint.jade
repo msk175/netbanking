@@ -1,0 +1,85 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                h1 Feedback  / Complaints.
+                form#user_registration_form(action='/feedbackUpdate',enctype="multipart/form-data",data-ajax="false",id='UPDATEFormID',name = 'user_detailsupdate_form',method='post')
+                    br
+                    h3 #{msg}
+                    table(style='width:100%;')
+                        tr
+                            td(width="60%", colspan='2')
+                                span(style='font-weight:bold;') Feedback/Complaint Form
+                                hr
+                        tr
+                            td(width="40%", align="right")
+                                label Query Type*
+                            td(width="60%", align="left")
+                                select(id="query_type",name="query_type")
+                                    option(value='0') Feedback
+                                    option(value='1') Complaint
+
+                        tr
+                            td(width="40%", align="right")
+                                label Query Related*
+                            td(width="60%", align="left")
+                                select(id="type_of_services", name="type_of_services")
+                                    option(value='0') Account Summary
+                                    option(value='1') Account Statement
+                                    option(value='2') NEFT/RGTS Reports
+                                    option(value='3') NEFT/RGTS Transactions
+                                    option(value='4') Add Beneficiary
+                                    option(value='5') Change Password
+                                    option(value='6') Profile Update
+                                    option(value='7') Feedback/Complaint
+
+                        tr
+                            td(width="40%", align="right")
+                                label Customer ID*
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                input(type="text", value=results[j].customer_id,required='true',readonly="readonly",id='customer_id',name='customer_id')
+                                - }
+
+                        tr
+                            td(width="40%", align="right")
+                                label First Name*
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", value=results[j].first_name,required='true',readonly="readonly",id='first_name',name='first_name')
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label Email Address *
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type='email', name='email', required='required', readonly="readonly",value=results[j].email,id='email')
+                                    - }
+
+                        tr
+                            td(width="40%", align="right")
+                                label Phone *
+                            td(width="60%", align="left")
+                                - for (var j = 0; j < results.length; ++j) {
+                                    input(type="text", maxlength="10",value=results[j].phone,readonly="readonly",required='true',id='phone',name='phone')
+                                    - }
+                        tr
+                            td(width="40%", align="right")
+                                label Address*
+                            td(width="60%", align="left")
+                                textarea(required='true',readonly="readonly",id='address',name='address')
+                                    |#{results[0].address}
+                        tr
+                            td(width="40%", align="right")
+                                label Comments*
+                            td(width="60%", align="left")
+                                textarea(name='comments',id="comments",required="true")
+
+                        tr
+                            td(width="40%", align="right")
+                                input(type="submit", id="save", value='Submit',onclick='return validateFeedback();').button_as_text
+                            td(width="60%", align="left")
+                                input(type="button", id="cancel", value='Cancel', onclick = 'window.location.href="/accountsummary"').button_as_text

@@ -1,0 +1,69 @@
+extends netbankinglayout
+
+block content
+    header
+    table.css-table
+        tr
+            td
+                h1 NEFT / RTGS Transaction.
+                form#user_registration_form(action='/neftTransfer',enctype="multipart/form-data",data-ajax="false",id='BDEFormID',name = 'user_reigstration_form',method='post')
+                    br
+                    h2 #{msg}
+                    table(style='width:100%;')
+                        tr
+                            td(colspan = '2')
+                                span(style='font-weight:bold;') Transafer Information
+                                hr
+                        tr
+                            td(width="40%", align="right")
+                                label Source Account Number
+                                input(type="hidden", id="running_balance", value=userDetails[0].opening_balance,name="running_balance")
+                            td(width="60%", align="left")
+                                select(id='source_acc_number',name='source_acc_number')
+                                    -for (var j = 0; j < userDetails.length; ++j){
+                                        option(value=userDetails[j].acc_number,id='source_acc_number',name='source_acc_number') #{userDetails[j].acc_number}
+                                    -}
+                        tr
+                            td(width="40%", align="right")
+                                label Beneficiary List
+                            td(width="60%", align="left")
+                                select(id='transfer_acc_number',name='transfer_acc_number',onchange="beneficiaryload("+JSON.stringify(beneDetails)+");")
+                                    option(value="Select",id='Select') Select
+                                    - for (var j = 0; j < beneDetails.length; ++j) {
+                                        option(value=beneDetails[j].acc_number,id='transfer_acc_number') #{beneDetails[j].acc_number}
+                                    - }
+                                input(type="button", id="add", value='Add',onclick = 'window.location.href="/beneficiary"').button_as_text
+
+                        tr
+                            td(width="40%", align="right")
+                                label Transfer Account Number
+                            td(width="60%", align="left")
+                                input(type="text", id="acc_number", name="acc_number",readonly="true")
+                        tr
+                            td(width="40%", align="right")
+                                label IFSC Code
+                            td(width="60%", align="left")
+                                input(type="text", id="ifsc_code", name="ifsc_code",readonly="true")
+                        tr
+                            td(width="40%", align="right")
+                                label Beneficiary Name
+                            td(width="60%", align="left")
+                                input(type="text", id="beneficiary_name", name="beneficiary_name",readonly="true")
+                        tr
+                                td(width="40%", align="right")
+                                    label Transfer Amount
+                                td(width="60%", align="left")
+                                    input(type="text", id="transfer_amount",name="transfer_amount",onblur="return validate_Amount();")
+                        tr
+                                td(width="40%", align="right")
+                                    label Transaction Notes
+                                td(width="60%", align="left")
+                                    input(type="text", id="transaction_notes", name="transaction_notes")
+                                    input(type="hidden", id="customer_id", name="customer_id",value = userDetails[0].customer_id)
+                        tr
+                                td(width="40%", align="right")
+                                    input(type="submit", id="save", value='Submit',onclick = "return validate();").button_as_text
+                                td(width="60%", align="left")
+                                    input(type="button", id="cancel", value='Reset', onclick = 'resetNeft();').button_as_text
+
+
