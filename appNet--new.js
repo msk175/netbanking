@@ -4,260 +4,53 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     mysql = require('mysql'),
-    PDFDocument = require('pdfkit'),
-    async = require('async'),
-    sync = require('synchronize');
+    PDFDocument = require('pdfkit');
     var router = express.Router();
-    var cronJob = require('cron').CronJob;
-    var _ = require('underscore');
-/*    var twilio = require('twilio');
-    var client = new twilio('AC6db222c85055499f002e091bd8416c3a', '76c7e4de9d61a98efa6e4635ced73c0c');  
-client.messages.create({
-  to: '9972843261',
-  from: '9972843261',
-  body: 'Welcome to TrustBank!'
+// Create a connection to MySql Server and Database
+var connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    database: 'netbanking',
+    user: 'root',
+    password: 'root'
+});
+var app = express();
+
+
+app.configure(function () {
+    app.set('port', process.env.PORT || 3000);
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'jade');
+    app.use(express.favicon());
+    app.use(express.logger('dev'));
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(require('stylus').middleware(__dirname + '/public'));
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(express.cookieParser('your secret here'));
+    app.use(express.session());/*{secret:'your secret here', cookie:{maxAge:180000,expires: new Date(Date.now() + 180000)}})*/
+    app.use(app.router);
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(function (req, res, next) {
+        res.locals.session = req.session;
+        next();
+           });
+    app.use(app.router);
+
 });
 
-const Nexmo = require('nexmo');
-
-const nexmo = new Nexmo({
-  apiKey: 'd4d9bf25',
-  apiSecret: '5f21441b980f0f9e',
-});
-
-var from = 'Nexmo';
-var to = '918667744374';
-var text = 'A text message sent using the Nexmo SMS API';
-
-nexmo.message.sendSms(
-  '918667744374', '918667744374', 'yo',
-    (err, responseData) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.dir(responseData);
-      }
-    }
- );
-*/
-
-
-    // Create a connection to MySql Server and Database
-    var connection = mysql.createConnection({
-        host: 'localhost',
-        port: 3306,
-        database: 'netbanking',
-        user: 'root',
-        password: 'root',
-        multipleStatements: true
-    });
-    var app = express();
-
-   app.configure(function () {
-        app.set('port', process.env.PORT || 3000);
-        app.set('views', __dirname + '/views');
-        app.set('view engine', 'jade');
-        app.use(express.favicon());
-        app.use(express.logger('dev'));
-        app.use(express.bodyParser());
-        app.use(express.methodOverride());
-        app.use(require('stylus').middleware(__dirname + '/public'));
-        app.use(express.static(path.join(__dirname, 'public')));
-        app.use(express.cookieParser('your secret here'));
-        app.use(express.session());/*{secret:'your secret here', cookie:{maxAge:180000,expires: new Date(Date.now() + 180000)}})*/
-        app.use(app.router);
-        app.use(express.static(path.join(__dirname, 'public')));
-        app.use(function (req, res, next) {
-            res.locals.session = req.session;
-            next();
-               });
-        app.use(app.router);
-
-    });
-    
-  
-new cronJob('26 14 21 * *',function(){
-    var randtoken = require('rand-token');
-    var parseXlsx = require('excel');
-       
-    var randomPassword = randtoken.generate(8);
-    var nodemailer = require('nodemailer');
-    var transporter = nodemailer.createTransport("SMTP",{
-        service: 'Gmail',
-        auth: {
-            user: 'msk175@gmail.com',
-            pass: 'matheswari@1'
-        }
-    });
-
-    parseXlsx('/Users/Sathishkumar.M/Documents/calc.xlsx', '3', function(err, data) {
-        if(err) throw err;
-        else{
-            for(var i=1; i < data.length; i++){
-                var mailOptions = {
-                    from: "HM<no-reply@happiestminds.com>",
-                    to: data[i][5] ,
-                    cc: data[i][6],
-                    subject: 'November Netsuite timesheets - IMPORTANT',
-                    html: "Hi "+data[i][0]+",<br/> \n<br/> \nFollowing is the reference data for hours to be filled in Netsuite & Smiles based on the leave data in HRMS, please revert back to me in case of any discrepancies.<br/> \n <br/> \n"+data[i][0]+" : "+data[i][1]+" hours <br/> \n <br/> \n Thanks,<br/> \n Nodemailer."
-                };
-
-                transporter.sendMail(mailOptions, function(error, response){
-                        if(error){
-                            console.log(error);
-                            
-                        }else{
-                            console.log("Mail sent successfully");
-                        }
-                });
-            }
-        }
-    });
-    
-} , null, true);
-    
-    new cronJob('10 10 10 * * *',function(){
-    console.log('This runs at the 1st mintue of every day.');
-    connection.query('SELECT * FROM user', function (err, results) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            _.each(results, function(one) {
-                connection.query('SELECT * FROM intrest_calculation where customer_id=?',[one.customer_id], function (err, details) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else if(details.length>0){
-                        var intrest_amount;
-                        intrest_amount=Number((one.running_balance*6/100*1/365).toFixed(2));
-                        intrest_amount+=details[0].intrest_amount;
-                       connection.query('UPDATE `netbanking`.`intrest_calculation` SET `intrest_amount`=?,`last_interest_cal_date`=(SELECT CURDATE()) WHERE `customer_id`=?',
-                            [intrest_amount,one.customer_id],function (err,insert){
-                            if(err){
-                                console.log(err);
-                            }
-                        });
-                    }else{
-                        var intrest_amount;
-                        intrest_amount=Number((one.running_balance*6/100*1/365).toFixed(2));
-                        connection.query('INSERT INTO `netbanking`.`intrest_calculation` SET `customer_id`=?,`intrest_amount`=?,`last_interest_cal_date`=(SELECT CURDATE()),`intrest_percentage`=?,`intrest_paid_tii_date`=?,`last_interest_paid_date`=(SELECT CURDATE())',
-                            [one.customer_id,intrest_amount,'6','0']
-                                                                                        ,function (err,insert){
-                            if(err){
-                                console.log(err);
-                            }
-                        });
-                    }
-                });
-            });
-        }
-    });
-} , null, true);
-
-new cronJob('10 10 10 * * *',function(){
-    console.log('This runs at the 1st date of every month.');
-    connection.query('SELECT u.acc_number,u.customer_id,u.running_balance,ic.intrest_amount,ic.intrest_paid_tii_date,ic.last_interest_cal_date,ic.last_interest_paid_date FROM user u left join intrest_calculation ic on ic.customer_id=u.customer_id where role=? and active_indicator=1',['user'], function (err, results) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            _.each(results, function(one) {
-                if(one.intrest_amount>0){
-                        console.log(one);
-                        var intrest_amount=parseFloat(one.intrest_paid_tii_date)+parseFloat(one.intrest_amount);
-                        connection.query('UPDATE `netbanking`.`intrest_calculation` SET `intrest_paid_tii_date`=?,`last_interest_paid_date`=(SELECT CURDATE()) WHERE customer_id=?',
-                            [intrest_amount,one.customer_id],function (err,insert4){
-                            if(err){
-                                console.log(err);
-                                console.log('Now in INT UPDATE to summay');
-                            }
-                        });
-                       connection.query('UPDATE `netbanking`.`intrest_calculation` SET `intrest_amount`=? WHERE customer_id=?',
-                            ['0',one.customer_id],function (err,insert3){
-                            if(err){
-                                console.log(err);
-                                console.log('Now in INT UPDATE to 0');
-                            }
-                        });
-                        
-                        var running_balance=parseFloat(one.intrest_amount)+parseFloat(one.running_balance);
-                        connection.query('UPDATE `netbanking`.`user` SET `running_balance`=?,`last_updated_timestamp`=(SELECT NOW()) WHERE `customer_id`=?',
-                            [running_balance,one.customer_id],function (err,insert0){
-                            if(err){
-                                console.log(err);
-                                console.log('Now in INT UPDATE to running_balance');
-                            }
-                        });
-
-                       connection.query('INSERT INTO account_summary SET transaction_date=(SELECT CURDATE()),acc_number=?,source_acc_number=?,credit=?,debit=?,narration=?,running_balance=?',[one.acc_number,'2715118000001',one.intrest_amount,'-','CR INT CAPITALIZED',running_balance]
-                        ,function (err,insert2){
-                            if(err){
-                                console.log(err);
-                                console.log('Now in INT intsert to acc-summay');
-                            }
-                        });
-
-                        connection.query('INSERT INTO `netbanking`.`intrest_calculation_paid_details` SET `customer_id`=?,`from`=?,`to`=?,`amount`=?,`process_date`=(SELECT CURDATE()),`narration`=?',[one.customer_id,one.last_interest_paid_date,one.last_interest_cal_date,one.intrest_amount,'INT CAPITALIZED']
-                        ,function (err,insert5){
-                            if(err){
-                                console.log(err);
-                                console.log('Now in INT insert to int');
-                            }
-                        });
-
-                         connection.query('UPDATE `netbanking`.`user` SET `running_balance`=running_balance-?,`last_updated_timestamp`=(SELECT NOW()) WHERE `customer_id`=?;SELECT running_balance FROM user WHERE customer_id=7844001',
-                                [one.intrest_amount,'7844001'],function (err,insert0,row,fields){
-                                if(err){
-                                    console.log(err);
-                                    console.log('Now in INT UPDATE to running_balance');
-                                }else{
-                                    var balance1=insert0[1][0].running_balance;
-                                    connection.query('INSERT INTO account_summary SET transaction_date=(SELECT CURDATE()),acc_number=?,source_acc_number=?,credit=?,debit=?,narration=?,running_balance=?',['2715118000001',one.acc_number,'-',one.intrest_amount,'DR INT CAPITALIZED',balance1]
-                                    ,function (err,insert1){
-                                        if(err){
-                                            console.log(err);
-                                            console.log('Now in INT intsert to acc-admin-summay');
-                                        }
-                                    });
-                                }
-                            });
-                }else{
-                    console.log('Unable to process Interest credit due to interest amount INR'+one.intrest_amount);
-                }
-            }); 
-        }
-    });
-} , null, true);
-
-/*var request=require("request");
+var request=require("request");
 request.get("http://codeforgeek.com",function(error,response,body){
            if(error){
                  console.log(error);
            }else{
                  console.log("response");
          }
-});*/
+});
 
 app.configure('development', function () {
     app.use(express.errorHandler());
 });
-
-/*app.post('/use-voice', twilio.webhook({ validate: false }), function (req, res) {
-  from = '9972843261';
-  to   = '9972843261';
-  body = '9972843261';
-
-  gatherOutgoingNumber(from, to)
-  .then(function (outgoingPhoneNumber) {
-    var voiceResponse = new VoiceResponse();
-    voiceResponse.play('http://howtodocs.s3.amazonaws.com/howdy-tng.mp3');
-    voiceResponse.dial(outgoingPhoneNumber);
-
-    res.type('text/xml');
-    res.send(voiceResponse.toString());
-  })
-});*/
 
 app.get('/', function (req, res) {
     res.render('index', {
@@ -624,16 +417,16 @@ app.post('/authen', function (req, res) {
                 var transporter = nodemailer.createTransport("SMTP",{
                     service: 'Gmail',
                     auth: {
-                        user: 'msk175@gmail.com',
-                        pass: 'matheswari@1'
+                        user: 'mfi.android@ionixxtech.com',
+                        pass: 'mfiteam@321'
                     }
                 });
 
                 var mailOptions = {
-                    from: "HM<no-reply@happiestminds.com>",
-                    to: "Sathishkumar.m@happiestminds.com" ,
-                    subject: 'November Leave data in HRMS',//props.emailSubject,
-                    html: "Team,Please make sure your leave data for the month of August is correctly reflecting in HRMS, if not, please update/correct it accordingly ASAP"
+                    from: "TrustBank<no-reply@trustbank.com>",
+                    to: req.session.userResultList[0].email ,
+                    subject: 'Dynamic Login Code',//props.emailSubject,
+                    html: "To proceed further take a dynamic login code : "+randomPassword//props.emailText+""+newPassword
                 };
 
                 connection.query('UPDATE user SET dynamic_code = ? where customer_id =?',[randomPassword,req.session.userResultList[0].customer_id],function(err){
@@ -653,11 +446,6 @@ app.post('/authen', function (req, res) {
                                         userDetails: req.session.userResultList
                                     });
                                 }else{
-                                    connection.query('INSERT INTO netbanking.two_factor_auth_details SET customer_id=?,date=(select NOW()),purpose=?,type=?',[req.session.userResultList[0].customer_id,'dynamicOTP For Login','EMAIL'],function(err,des){
-                                        if(err){
-                                            console.log(err);
-                                        }
-                                    });
                                     res.render('dynamicOTP', {
                                         title: '::-Dynamic Login Code-::',
                                         userDetails: req.session.userResultList,
@@ -666,13 +454,10 @@ app.post('/authen', function (req, res) {
                                 }
                             });
                         }else{
-                            updateLastLogin(req,res,function(callback){
-                                res.render('accountsummary', {
+                            res.render('accountsummary', {
                                         title: '::-AccountSummary-::',
                                         userDetails: req.session.userResultList
                                     });
-                            });
-                            
                         }
                         
                     }
@@ -723,15 +508,6 @@ app.post('/authen', function (req, res) {
             }
         });
 });
-
-function updateLastLogin(req,res,callback){
-     connection.query('UPDATE user SET last_login =(select now())  where customer_id =?',[req.session.userResultList[0].customer_id],function(err){
-        if(err){
-            console.log(err);
-        }
-        callback();
-    });
-}
 
 app.post('/forgotinfo', function (req, res) {
     connection.query('SELECT * FROM user where acc_number=? and date_of_birth=? and phone=?',
@@ -1197,7 +973,7 @@ app.post('/statement', function (req, res) {
                         clientInc = clientInc + 30;
                     }
                     //doc.font('Times-Roman').fontSize(13).text("______________________________________________________________________________________",5,12+(567-25));
-                    doc.write("/Users/Sathishkumar.M/Downloads/Netbanking/public/documents/statement.pdf");
+                    doc.write("/Users/Sathishkumar.M/Downloads/Netbanking/Netbanking/public/documents/statement.pdf");
                     doc.write("statement.pdf",function(err){    
                         if(err){
                             console.log(err);
@@ -1243,7 +1019,7 @@ app.post('/statement', function (req, res) {
                         }
                     }
                     doc.font('Times-Roman').fontSize(13).text("______________________________________________________________________________________",5,12+(567-25));
-                    doc.write("/Users/Sathishkumar.M/Downloads/Netbanking/public/documents/statement.pdf");
+                    doc.write("/Users/Sathishkumar.M/Downloads/Netbanking/Netbanking/public/documents/statement.pdf");
                     doc.write("statement.pdf",function(err){    
                         if(err){
                             res.render('reportgeneration', {
@@ -1288,7 +1064,7 @@ app.post('/statement', function (req, res) {
 app.get('/downloads', function (req, res){
      if(req.session.userResultList)
     {
-        res.download("/Users/Sathishkumar.M/Downloads/Netbanking/public/documents/statement.pdf", function(err){
+        res.download("/Users/Sathishkumar.M/Downloads/Netbanking/Netbanking/public/documents/statement.pdf", function(err){
                     if (err) {
                         console.log(err);
                     } else {
@@ -1923,7 +1699,7 @@ app.post('/AddBeneficiary', function (req, res) {
                 }
                 else if(results.length > 0 && results[0] !== null)
                 {
-                    var beneficisaryAddQuery = 'INSERT INTO beneficiary SET source_acc_number = "'+req.body.source_acc_number+'",acc_number = "'+req.body.acc_number+'", ifsc_code="'+req.body.ifsc_code+'",beneficiary_name= "'+req.body.beneficiary_name+'", created_timestamp="'+NOW()+'", last_updated_timestamp="'+NOW()+'"';
+                    var beneficisaryAddQuery = 'INSERT INTO beneficiary SET source_acc_number = "'+req.body.source_acc_number+'",acc_number = "'+req.body.acc_number+'", ifsc_code="'+req.body.ifsc_code+'",beneficiary_name= "'+req.body.beneficiary_name+'", created_timestamp="'+new Date()+'", last_updated_timestamp="'+new Date()+'"';
                     connection.query(beneficisaryAddQuery, function (err, results) {
                             if (err) {
                                 console.log(err.message);
@@ -2003,10 +1779,7 @@ app.post('/dynamicPasswordCheck', function(req,res){
                 title: '::-Retail Login-::',msg:'Session Expired!'
             });
         }else if(results.length >0){
-            updateLastLogin(req,res,function(callback){
-                res.redirect(redirectTo);
-            });
-            
+            res.redirect(redirectTo);
         }else{
             res.render('dynamicOTP', {
                 title: '::-Dynamic Login Code-::',
@@ -2079,14 +1852,14 @@ app.post('/upload',function(req, res) {
         var fs = require('fs'),
             util = require('util');
         var fileName = new Array();
-        fs.unlink("/Users/Sathishkumar.M/Downloads/Netbanking/public/images/"+req.session.userResultList[0].acc_number+".jpg", function(err){
+        fs.unlink("/Users/Sathishkumar.M/Downloads/Netbanking/Netbanking/public/images/"+req.session.userResultList[0].acc_number+".jpg", function(err){
             if(err){ console.log('Error while unlinking Old'+err); }
             else { console.log('Successfully unlinked Old');};
         });
         var fileType = req.files.singleUploadDocument.name;
 
         var is = fs.createReadStream(req.files.singleUploadDocument.path);
-        var os = fs.createWriteStream("/Users/Sathishkumar.M/Downloads/Netbanking/public/images/"+fileType);
+        var os = fs.createWriteStream("/Users/Sathishkumar.M/Downloads/Netbanking/Netbanking/public/images/"+fileType);
         is.pipe(os);
         is.on('end', function() {
            console.log("File uploaded successfully");
@@ -2094,7 +1867,7 @@ app.post('/upload',function(req, res) {
         fs.unlink(req.files.singleUploadDocument.path, function(err){
             if(err){ console.log('Error while unlinking '+err); }
             else { console.log('Successfully unlinked');};
-            fs.rename("/Users/Sathishkumar.M/Downloads/Netbanking/public/images/"+fileType,"/Users/Sathishkumar.M/Downloads/Netbanking/public/images/"+req.session.userResultList[0].acc_number+".jpg", function(err) {
+            fs.rename("/Users/Sathishkumar.M/Downloads/Netbanking/Netbanking/public/images/"+fileType,"/Users/Sathishkumar.M/Downloads/Netbanking/Netbanking/public/images/"+req.session.userResultList[0].acc_number+".jpg", function(err) {
                 if ( err ) console.log('ERROR: ' + err);
                 res.redirect('/cca');
             });
